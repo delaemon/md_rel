@@ -8,7 +8,6 @@ git = "https://github.com/TyOverby/try_or.git"
 
 [dependencies]
 regex = "*"
-regex_macros = "*"
 
 [[bin]]
 name = "md_rel"

@@ -1,5 +1,3 @@
-#![feature(plugin)]
-#![plugin(regex_macros)]
 
 extern crate regex;
 #[macro_use] extern crate try_or;
@@ -8,6 +6,7 @@ use std::fs::File;
 use std::io::Error as IoError;
 use std::io::{BufReader, BufWriter, BufRead, Read, Write};
 use std::path::PathBuf;
+use regex::Regex;
 
 #[cfg(test)]
 mod test;
@@ -35,9 +34,9 @@ pub enum MdError {
 pub type MdResult<A> = Result<A, MdError>;
 
 pub fn detect_type(line: &str) -> Option<LineType> {
-    let file = regex!(r"\^code\( *([^, ]+) *\)");
-    let section = regex!(r"\^code\( *([^, ]+) *, *([a-zA-Z]+) *\)");
-    let lines = regex!(r"\^code\( *([^, ]+) *, *([0-9]+) *, *([0-9]+) *\)");
+    let file = Regex::new(r"\^code\( *([^, ]+) *\)").unwrap();
+    let section = Regex::new(r"\^code\( *([^, ]+) *, *([a-zA-Z]+) *\)").unwrap();
+    let lines = Regex::new(r"\^code\( *([^, ]+) *, *([0-9]+) *, *([0-9]+) *\)").unwrap();
 
     if file.is_match(line) {
         let capture = file.captures(line).unwrap();
